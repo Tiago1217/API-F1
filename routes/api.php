@@ -1,18 +1,18 @@
 <?php
 
-
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\equipe;
-use App\Http\Controllers\piloto;
+use App\Http\Controllers\PilotoController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Status da API
+Route::get('/status', function () {
+    return response()->json(['status' => 'API is working']);
+});
 
-Route::get('/', function() {return response() ->json(['sucesso'=>true]);});
-Route::get('/livros',[equipe::class,'index']);
-Route::get('/livros/{id}',[equipe::class,'show']);
-Route::post('/livros',[equipe::class,'store']);
-Route::put('/livros/{id}',[equipe::class,'update']);
-Route::delete('/livros/{id}',[equipe::class,'destroy']);
+// Rotas para o controlador Piloto
+Route::prefix('pilotos')->group(function () {
+    Route::get('/', [PilotoController::class, 'index']); // Listar todos os pilotos
+    Route::get('/{id}', [PilotoController::class, 'show']); // Mostrar um piloto específico
+    Route::post('/', [PilotoController::class, 'store']); // Criar um novo piloto
+    Route::put('/{id}', [PilotoController::class, 'update']); // Atualizar um piloto existente
+    Route::delete('/{id}', [PilotoController::class, 'destroy']); // Deletar um piloto
+});
